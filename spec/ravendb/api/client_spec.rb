@@ -10,7 +10,7 @@ RSpec.describe Ravendb::Api::Client do
 
   describe '#initialize' do
     it 'stores a url' do
-      expect(client.url).to eq 'http://localhost:8080'
+      expect(client.url.to_s).to eq 'http://localhost:8080'
     end
   end
 
@@ -31,20 +31,25 @@ RSpec.describe Ravendb::Api::Client do
   describe '#create_database' do
     it 'creates a database' do
       # Setup spy
-      allow(Net::HTTP).to receive(:get)
+      allow(Net::HTTP).to receive(:start).with('localhost', 8080)
 
       # act
-      client.create_database name: 'qa1'
+      client.create_database(name: 'qa1')
 
       # assert spy
-      expect(Net::HTTP).to have_received(:get)
-
-      # expect(client.databases).to include 'qa1'
+      expect(Net::HTTP).to have_received(:start)
     end
 
     it 'fails to create a database that already exists' do
 
     end
 
+  end
+
+  describe '#delete_database' do
+    it 'deletes a database' do
+      expect{ client.delete_database(name: 'qa1')
+      }.to_not raise_error()
+    end
   end
 end

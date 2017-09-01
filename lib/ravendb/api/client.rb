@@ -9,7 +9,7 @@ module Ravendb
         attr_reader :url
 
         def initialize(url:)
-          @url = url
+          @url = URI(url)
         end
 
         def databases
@@ -27,17 +27,20 @@ module Ravendb
         #
         # Invoke-RestMethod -Uri http://$($HostName):$($Port)/admin/databases/$RavenDatabaseName -Method PUT -Body (ConvertTo-Json $body)
         def create_database(name:)
-          #
-          req = Net::HTTP::Post.new(URI(get_database_endpoint() + "#{name}"), 'Content-Type' => 'application/json')
-          req.body = {Settings: { }, Disabled: false}.to_json
-          res = Net::HTTP.start(@uri.hostname, uri.port) do |http|
+          res = Net::HTTP.start(@url.host, @url.port) do |http|
+            req = Net::HTTP::Post.new(get_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
+            req.body = {Settings: { }, Disabled: false}.to_json
             http.request(req)
           end
         end
 
+        def delete_database(name:)
+          name
+        end
+
         private
         def get_database_endpoint
-          return @url + '/admin/databases/'
+          return '/admin/databases/'
         end
 
 
