@@ -3,6 +3,8 @@ require 'net/http'
 require 'json'
 require 'pry'
 
+# RavenDB HTTP Api
+# https://ravendb.net/docs/article-page/3.5/http/client-api/commands/how-to/get-database-configuration
 module Ravendb
   module Api
       class Client
@@ -27,10 +29,16 @@ module Ravendb
         #
         # Invoke-RestMethod -Uri http://$($HostName):$($Port)/admin/databases/$RavenDatabaseName -Method PUT -Body (ConvertTo-Json $body)
         def create_database(name:)
-          binding.pry
           res = Net::HTTP.start(@url.host, @url.port) do |http|
-            req = Net::HTTP::Put.new(get_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
-            req.body = {Settings: { }, Disabled: false}.to_json
+            req = Net::HTTP::Put.new(create_delete_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
+
+            req.body = {
+              Settings: { 
+                'Raven/ActiveBundles': '', 
+                'Raven/DataDir': "~/#{name}" 
+              }, 
+              Disabled: false
+            }.to_json
             http.request(req)
           end
         end
