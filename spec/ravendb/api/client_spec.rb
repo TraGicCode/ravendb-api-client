@@ -5,7 +5,7 @@ RSpec.describe Ravendb::Api::Client do
   let(:client) { Ravendb::Api::Client.new(url: 'http://localhost:8080') }
 
   it "has a version number" do
-    expect(Ravendb::Api::Client::VERSION).not_to be nil
+    expect(Ravendb::Api::VERSION).not_to be nil
   end
 
   describe '#initialize' do
