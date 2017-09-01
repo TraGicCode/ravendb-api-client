@@ -45,5 +45,6 @@ RSpec.describe Ravendb::Api::Client do
     it 'fails to create a database that already exists' do
 
     end
+
   end
 end
