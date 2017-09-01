@@ -13,7 +13,7 @@ module Ravendb
         end
 
         def databases
-          response = Net::HTTP.get(URI(get_database_endpoint()))
+          response = Net::HTTP.get(URI(@url + get_databases_endpoint()))
           JSON.parse(response)
         end
 
@@ -27,8 +27,9 @@ module Ravendb
         #
         # Invoke-RestMethod -Uri http://$($HostName):$($Port)/admin/databases/$RavenDatabaseName -Method PUT -Body (ConvertTo-Json $body)
         def create_database(name:)
+          binding.pry
           res = Net::HTTP.start(@url.host, @url.port) do |http|
-            req = Net::HTTP::Post.new(get_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
+            req = Net::HTTP::Put.new(get_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
             req.body = {Settings: { }, Disabled: false}.to_json
             http.request(req)
           end
@@ -39,9 +40,16 @@ module Ravendb
         end
 
         private
-        def get_database_endpoint
+        def create_delete_database_endpoint
           return '/admin/databases/'
         end
+
+        def get_databases_endpoint
+          return '/databases'
+        end
+
+        # TODO: Create post wrapper
+        # TODO: Create get wrapper
 
 
     end
