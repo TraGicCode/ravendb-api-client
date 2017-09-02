@@ -19,6 +19,10 @@ module Ravendb
           JSON.parse(response)
         end
 
+        def database_exists?(name:)
+          databases.include?(name)
+        end
+
         # $body = @{
         #     Settings = @{
         #     "Raven/DataDir" = "~\Databases\$RavenDatabaseName"

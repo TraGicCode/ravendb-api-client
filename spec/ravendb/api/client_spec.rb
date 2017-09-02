@@ -28,6 +28,19 @@ RSpec.describe Ravendb::Api::Client do
     end
   end
 
+  describe '#database_exists?' do
+  
+    it 'returns true' do
+      allow(client).to receive(:databases).and_return(['development'])
+      expect(client.database_exists?(name: 'development')).to eq(true)
+    end
+  
+    it 'returns false' do
+      allow(client).to receive(:databases).and_return([])
+      expect(client.database_exists?(name: 'development')).to eq(false)
+    end
+  end
+
   describe '#create_database' do
     it 'creates a database' do
       # Setup spy
