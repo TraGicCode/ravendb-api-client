@@ -8,6 +8,7 @@ require 'pry'
 module Ravendb
   module Api
       class Client
+        
         attr_reader :url
 
         def initialize(url:)
@@ -44,11 +45,11 @@ module Ravendb
           }
 
           create_database_options = default_options.merge(options)
-          put(url: @url + create_delete_database_endpoint() + "#{name}", json_hash: create_database_options)
+          put(url: @url + create_delete_database_endpoint() + name, json_hash: create_database_options)
         end
-
+        # Invoke-RestMethod -Uri http://$($HostName):$($Port)/admin/databases/$RavenDatabaseName`?hard-delete=true -Method Delete
         def delete_database(name:)
-          name
+          delete(url: @url + create_delete_database_endpoint() + name)
         end
 
         private
@@ -69,10 +70,26 @@ module Ravendb
           # This is also a hash.  not sure which one to use
           # { :Settings => 'd', :Go: 'test' }.class
           req.body = json_hash.to_json
-          http.request(req)
+          check_response(http.request(req))
+        end
+        
+        def delete(url:)
+          _url = URI(url)
+          http = Net::HTTP.new(_url.host, _url.port)
+          req = Net::HTTP::Delete.new(_url.request_uri)
+          check_response(http.request(req))
         end
         # TODO: Create post wrapper
         # TODO: Create get wrapper
+
+        def check_response(response)
+          case response
+          when Net::HTTPSuccess
+            return
+          else
+            raise RuntimeError, "Request failed with an HTTP status code of #{response.code} and a message of #{response.body}."
+          end
+        end
 
 
     end

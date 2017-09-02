@@ -1,5 +1,17 @@
+require 'simplecov'
+require 'simplecov-console'
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console
+]
+SimpleCov.start do
+  track_files 'lib/**/*.rb'
+  add_filter '/.bundle/'
+end
 require "bundler/setup"
+
 require "ravendb/api/client"
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

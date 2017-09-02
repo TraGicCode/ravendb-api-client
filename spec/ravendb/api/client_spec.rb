@@ -42,25 +42,38 @@ RSpec.describe Ravendb::Api::Client do
   end
 
   describe '#create_database' do
-    it 'creates a database' do
-      # Setup spy
-      allow(client).to receive(:put).with(url: URI('http://localhost:8080/admin/databases/qa1'), json_hash: {
-        Settings: { 
-          'Raven/ActiveBundles': '', 
-          'Raven/DataDir': "~/qa1" 
-        }, 
-        Disabled: false
-      })
 
+    context 'when no options are specified' do
+      it 'creates a database with default options' do
+        # Setup spy
+        allow(client).to receive(:put).with(url: URI('http://localhost:8080/admin/databases/qa1'), json_hash: {
+          Settings: { 
+            'Raven/ActiveBundles': '', 
+            'Raven/DataDir': "~/qa1" 
+          }, 
+          Disabled: false
+        })
 
-      # act
-      client.create_database(name: 'qa1')
+        # act
+        client.create_database(name: 'qa1')
+      
+        # assert spy
+        expect(client).to have_received(:put)
+      end
+    end
 
-      # assert spy
-      expect(client).to have_received(:put)
+    context 'when options are specified' do
+    
+      it 'creates a database with merged defaults correctly' do
+      end
+    
     end
 
     it 'fails to create a database that already exists' do
+      allow(client).to receive(:put).and_raise('Request failed with an HTTP status')
+      expect {
+        client.create_database(name:'qa1')
+    }.to raise_error(RuntimeError, /Request failed with an HTTP status/)
 
     end
 
@@ -68,8 +81,10 @@ RSpec.describe Ravendb::Api::Client do
 
   describe '#delete_database' do
     it 'deletes a database' do
-      expect{ client.delete_database(name: 'qa1')
-      }.to_not raise_error()
+      # Spy
+      allow(client).to receive(:delete).with(url: URI('http://localhost:8080/admin/databases/development'))
+      client.delete_database(name: 'development')
+      expect(client).to have_received(:delete) 
     end
   end
 end
