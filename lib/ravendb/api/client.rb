@@ -44,17 +44,7 @@ module Ravendb
           }
 
           create_database_options = default_options.merge(options)
-
-          res = Net::HTTP.start(@url.host, @url.port) do |http|
-            req = Net::HTTP::Put.new(create_delete_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
-            binding.pry
-            # { Settings: '', Go: 'test' }.class
-            # This is a hash  
-            # This is also a hash.  not sure which one to use
-            # { :Settings => 'd', :Go: 'test' }.class
-            req.body = create_database_options.to_json
-            http.request(req)
-          end
+          put(url: @url + create_delete_database_endpoint() + "#{name}", json_hash: create_database_options)
         end
 
         def delete_database(name:)
@@ -70,6 +60,17 @@ module Ravendb
           return '/databases'
         end
 
+        def put(url:, json_hash:)
+          _url = URI(url)
+          http = Net::HTTP.new(_url.host, _url.port)
+          req = Net::HTTP::Put.new(_url.request_uri, 'Content-Type' => 'application/json')
+          # { Settings: '', Go: 'test' }.class
+          # This is a hash  
+          # This is also a hash.  not sure which one to use
+          # { :Settings => 'd', :Go: 'test' }.class
+          req.body = json_hash.to_json
+          http.request(req)
+        end
         # TODO: Create post wrapper
         # TODO: Create get wrapper
 

@@ -44,13 +44,20 @@ RSpec.describe Ravendb::Api::Client do
   describe '#create_database' do
     it 'creates a database' do
       # Setup spy
-      allow(Net::HTTP).to receive(:start).with('localhost', 8080)
+      allow(client).to receive(:put).with(url: URI('http://localhost:8080/admin/databases/qa1'), json_hash: {
+        Settings: { 
+          'Raven/ActiveBundles': '', 
+          'Raven/DataDir': "~/qa1" 
+        }, 
+        Disabled: false
+      })
+
 
       # act
       client.create_database(name: 'qa1')
 
       # assert spy
-      expect(Net::HTTP).to have_received(:start)
+      expect(client).to have_received(:put)
     end
 
     it 'fails to create a database that already exists' do
