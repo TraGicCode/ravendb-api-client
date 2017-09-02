@@ -63,6 +63,7 @@ module Ravendb
 
         def get(url:)
           response = Net::HTTP.get(url)
+          check_response(response)
           JSON.parse(response)
         end
 
