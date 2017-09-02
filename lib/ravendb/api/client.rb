@@ -32,17 +32,27 @@ module Ravendb
         # }
         #
         # Invoke-RestMethod -Uri http://$($HostName):$($Port)/admin/databases/$RavenDatabaseName -Method PUT -Body (ConvertTo-Json $body)
-        def create_database(name:)
+        # test(options: { Settings: 'test'})
+        # test(options: { :Settings => 'test'})
+        def create_database(name:, options: {})
+          default_options = {
+            Settings: { 
+              'Raven/ActiveBundles': '', 
+              'Raven/DataDir': "~/#{name}" 
+            }, 
+            Disabled: false
+          }
+
+          create_database_options = default_options.merge(options)
+
           res = Net::HTTP.start(@url.host, @url.port) do |http|
             req = Net::HTTP::Put.new(create_delete_database_endpoint() + "#{name}", 'Content-Type' => 'application/json')
-
-            req.body = {
-              Settings: { 
-                'Raven/ActiveBundles': '', 
-                'Raven/DataDir': "~/#{name}" 
-              }, 
-              Disabled: false
-            }.to_json
+            binding.pry
+            # { Settings: '', Go: 'test' }.class
+            # This is a hash  
+            # This is also a hash.  not sure which one to use
+            # { :Settings => 'd', :Go: 'test' }.class
+            req.body = create_database_options.to_json
             http.request(req)
           end
         end
