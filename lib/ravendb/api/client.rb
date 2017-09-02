@@ -16,8 +16,7 @@ module Ravendb
         end
 
         def databases
-          response = Net::HTTP.get(URI(@url + get_databases_endpoint()))
-          JSON.parse(response)
+          get(url: @url + get_databases_endpoint())
         end
 
         def database_exists?(name:)
@@ -61,14 +60,20 @@ module Ravendb
           return '/databases'
         end
 
+
+        def get(url:)
+          response = Net::HTTP.get(url)
+          JSON.parse(response)
+        end
+
         def put(url:, json_hash:)
           _url = URI(url)
           http = Net::HTTP.new(_url.host, _url.port)
           req = Net::HTTP::Put.new(_url.request_uri, 'Content-Type' => 'application/json')
-          # { Settings: '', Go: 'test' }.class
-          # This is a hash  
-          # This is also a hash.  not sure which one to use
+          # These are hashes
+          # They're equivalent. The second one is a more compact style that's common since lots of hashes have symbols for keys.
           # { :Settings => 'd', :Go: 'test' }.class
+          # { Settings: '', Go: 'test' }.class
           req.body = json_hash.to_json
           check_response(http.request(req))
         end
@@ -80,7 +85,6 @@ module Ravendb
           check_response(http.request(req))
         end
         # TODO: Create post wrapper
-        # TODO: Create get wrapper
 
         def check_response(response)
           case response

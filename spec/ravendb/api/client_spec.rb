@@ -16,12 +16,12 @@ RSpec.describe Ravendb::Api::Client do
 
   describe '#databases' do
     it 'returns databases' do
-      allow(Net::HTTP).to receive(:get).and_return("[\"development\", \"production\"]")
+      allow(client).to receive(:get).with(url: URI('http://localhost:8080/databases')).and_return(['development', 'production'])
       expect(client.databases).to eq ['development', 'production']
     end
 
     it 'returns no databases' do
-      allow(Net::HTTP).to receive(:get).and_return('[]')
+      allow(client).to receive(:get).with(url: URI('http://localhost:8080/databases')).and_return([])
       # constraint on specific parameter
       # allow(Net::HTTP).to receive(:get).with('blah').and_return('[]')
       expect(client.databases).to eq []
