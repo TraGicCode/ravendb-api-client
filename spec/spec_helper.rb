@@ -1,13 +1,4 @@
-require 'simplecov'
-require 'simplecov-console'
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::Console
-]
-SimpleCov.start do
-  track_files 'lib/**/*.rb'
-  add_filter '/.bundle/'
-end
+require 'coverage_helper'
 require "bundler/setup"
 
 require "ravendb/api/client"
