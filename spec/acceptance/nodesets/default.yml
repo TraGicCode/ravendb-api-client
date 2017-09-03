@@ -11,6 +11,10 @@ HOSTS:
     vb_gui: false
     vagrant_memsize: 4096
     vagrant_cpus: 2
+    forwarded_ports:
+      ravendb:
+        from: 8081
+        to: 8080
 CONFIG:
   log_level: debug
   type: aio # the agent type.  This is the new aio so lets use this for puppet 4 and up

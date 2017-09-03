@@ -10,3 +10,4 @@ gem 'beaker-puppet_install_helper'
 gem 'beaker-rspec'
 gem 'serverspec'
 gem 'winrm'
+gem "beaker-testmode_switcher"

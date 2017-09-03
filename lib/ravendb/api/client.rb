@@ -62,9 +62,12 @@ module Ravendb
 
 
         def get(url:)
-          response = Net::HTTP.get(url)
-          check_response(response)
-          JSON.parse(response)
+          _url = URI(url)
+          http = Net::HTTP.new(_url.host, _url.port)
+          req = Net::HTTP::Get.new(_url.request_uri)
+          res = http.request(req)
+          check_response(res)
+          JSON.parse(res.body)
         end
 
         def put(url:, json_hash:)
