@@ -1,9 +1,9 @@
-def remove_all_databases(url: url)
+def remove_all_databases(url:)
     powershell = <<-POWERSHELL
-    $databases = Invoke-RestMethod -Method Get -Uri 'http://localhost:8080/databases'
+    $databases = Invoke-RestMethod -Method Get -Uri 'http://localhost:8081/databases'
     foreach($database in $databases)
     {
-      Invoke-RestMethod -Method Delete -Uri "http://localhost:8080/admin/databases/$database"  
+      Invoke-RestMethod -Method Delete -Uri "http://localhost:8081/admin/databases/$database"  
     }
    
     POWERSHELL
