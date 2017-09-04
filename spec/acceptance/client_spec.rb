@@ -1,4 +1,3 @@
-require 'spec_helper_acceptance'
 require "ravendb/api/client"
 
 describe 'client' do
