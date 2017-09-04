@@ -28,7 +28,12 @@ describe 'client' do
     end
 
     it 'returns a specific database' do
+        # Arrange
+        client.create_database(name: 'development')
+        # Act
         database = client.get_database(name: 'development')
+
+        # Assert
         expect(database['Id']).to eq('development')
         expect(database['Settings']['Raven/ActiveBundles']).to eq('')
         expect(database['Settings']['Raven/DataDir']).to eq('~/development')
