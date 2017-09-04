@@ -12,3 +12,4 @@ gem 'serverspec'
 gem 'winrm'
 gem 'puppet'
 gem "beaker-testmode_switcher"
+gem 'rspec-collection_matchers'

@@ -27,6 +27,15 @@ describe 'client' do
         expect(client.database_exists?(name: 'development')).to eq(false)
     end
 
+    it 'returns no databases' do
+        expect(client.databases).to have(0).items
+    end
+
+    it 'returns 1 database' do
+        client.create_database(name: 'development')
+        expect(client.databases).to have(1).items
+    end
+
     it 'reports a database exists' do
         client.create_database(name: 'development')
         expect(client.database_exists?(name: 'development')).to eq(true)
