@@ -26,4 +26,10 @@ describe 'client' do
         # Assert
         expect(client.database_exists?(name: 'development')).to eq(false)
     end
+
+    it 'reports a database exists' do
+        client.create_database(name: 'development')
+        expect(client.database_exists?(name:development)).to eq(true)
+    end
+
 end
