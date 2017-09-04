@@ -13,6 +13,9 @@ desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
   t.rspec_opts ||= []
   t.rspec_opts << "--color"
+  if (ENV['APPVEYOR'])
+    ENV['BEAKER_localmode'] = 'yes'
+  end
   if (ENV['BEAKER_localmode'])
     t.rspec_opts << "-r ./spec/spec_helper_acceptance_local"
   else

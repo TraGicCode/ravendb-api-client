@@ -2,9 +2,6 @@
 version: 1.0.{build}-{branch}
 os: Windows Server 2012 R2
 
-environment:
-  BEAKER_testmode: "local"
-
 install:
   - set PATH=C:\Ruby22\bin;%PATH%
   - bundle install --path .bundle
@@ -17,7 +14,7 @@ before_test:
   - bundle -v
 
 test_script:
-  - bundle exec rake spec
+  # - bundle exec rake spec
   - bundle exec rake beaker 
 
 
