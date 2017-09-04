@@ -33,12 +33,20 @@ RSpec.describe Ravendb::Api::Client do
       allow(client).to receive(:get).with(url: URI('http://localhost:8080/admin/databases/development')).and_return( {"Id"=>"development", "Settings"=>{"Raven/ActiveBundles"=>"", "Raven/DataDir"=>"~/development"}, "SecuredSettings"=>{}, "Disabled"=>false})
       database = client.get_database(name: 'development')
       expect(database['Id']).to eq('development')
+      expect(database['Settings']['Raven/ActiveBundles']).to eq('')
+      expect(database['Settings']['Raven/DataDir']).to eq('~/development')
+      expect(database['SecuredSettings']).to eq({})
+      expect(database['Disabled']).to eq(false)
     end
 
     it 'returns another database' do
-      allow(client).to receive(:get).with(url: URI('http://localhost:8080/admin/databases/qa1')).and_return( {"Id"=>"qa1", "Settings"=>{"Raven/ActiveBundles"=>"", "Raven/DataDir"=>"~/development"}, "SecuredSettings"=>{}, "Disabled"=>false})
+      allow(client).to receive(:get).with(url: URI('http://localhost:8080/admin/databases/qa1')).and_return( {"Id"=>"qa1", "Settings"=>{"Raven/ActiveBundles"=>"", "Raven/DataDir"=>"~/qa1"}, "SecuredSettings"=>{}, "Disabled"=>false})
       database = client.get_database(name: 'qa1')
       expect(database['Id']).to eq('qa1')
+      expect(database['Settings']['Raven/ActiveBundles']).to eq('')
+      expect(database['Settings']['Raven/DataDir']).to eq('~/qa1')
+      expect(database['SecuredSettings']).to eq({})
+      expect(database['Disabled']).to eq(false)
     end
   end
 
