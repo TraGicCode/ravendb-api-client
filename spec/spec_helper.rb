@@ -1,4 +1,5 @@
 require 'coverage_helper'
+require 'rspec/collection_matchers'
 require "bundler/setup"
 
 require "ravendb/api/client"
