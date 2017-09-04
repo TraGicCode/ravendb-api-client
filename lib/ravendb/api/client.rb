@@ -19,6 +19,10 @@ module Ravendb
           get(url: @url + get_databases_endpoint())
         end
 
+        def get_database(name:)
+          get(url: @url + create_delete_database_endpoint() + name)
+        end
+
         def database_exists?(name:)
           databases.include?(name)
         end
@@ -59,7 +63,6 @@ module Ravendb
         def get_databases_endpoint
           return '/databases'
         end
-
 
         def get(url:)
           _url = URI(url)

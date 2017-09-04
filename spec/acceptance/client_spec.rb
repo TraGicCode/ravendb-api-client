@@ -27,6 +27,10 @@ describe 'client' do
         expect(client.database_exists?(name: 'development')).to eq(false)
     end
 
+    it 'returns a specific database' do
+        expect(client.get_database)
+    end
+
     it 'returns no databases' do
         expect(client.databases).to have(0).items
     end

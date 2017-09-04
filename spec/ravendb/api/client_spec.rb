@@ -28,6 +28,20 @@ RSpec.describe Ravendb::Api::Client do
     end
   end
 
+  describe '#get_database' do
+    it 'returns a database' do
+      allow(client).to receive(:get).with(url: URI('http://localhost:8080/admin/databases/development')).and_return( {"Id"=>"development", "Settings"=>{"Raven/ActiveBundles"=>"", "Raven/DataDir"=>"~/development"}, "SecuredSettings"=>{}, "Disabled"=>false})
+      database = client.get_database(name: 'development')
+      expect(database['Id']).to eq('development')
+    end
+
+    it 'returns another database' do
+      allow(client).to receive(:get).with(url: URI('http://localhost:8080/admin/databases/qa1')).and_return( {"Id"=>"qa1", "Settings"=>{"Raven/ActiveBundles"=>"", "Raven/DataDir"=>"~/development"}, "SecuredSettings"=>{}, "Disabled"=>false})
+      database = client.get_database(name: 'qa1')
+      expect(database['Id']).to eq('qa1')
+    end
+  end
+
   describe '#database_exists?' do
   
     it 'returns true' do
