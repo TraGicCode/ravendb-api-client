@@ -28,7 +28,8 @@ describe 'client' do
     end
 
     it 'returns a specific database' do
-        expect(client.get_database)
+        database = client.get_database(name: 'development')
+        expect(database['Id']).to eq('development')
     end
 
     it 'returns no databases' do
