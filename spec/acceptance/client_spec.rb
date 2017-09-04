@@ -32,4 +32,8 @@ describe 'client' do
         expect(client.database_exists?(name:development)).to eq(true)
     end
 
+    it 'reports a database does not exist' do
+        expect(client.database_exists?(name: 'development')).to eq(false)
+    end
+
 end
