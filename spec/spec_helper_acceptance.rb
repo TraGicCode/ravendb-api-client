@@ -4,6 +4,9 @@ require 'beaker/puppet_install_helper'
 require 'winrm'
 require 'pry'
 
+# automatically load any shared examples or contexts
+Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
+
 GEOTRUST_GLOBAL_CA = <<-EOM.freeze
 -----BEGIN CERTIFICATE-----
 MIIDVDCCAjygAwIBAgIDAjRWMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT
