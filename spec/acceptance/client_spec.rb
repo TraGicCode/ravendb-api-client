@@ -29,7 +29,7 @@ describe 'client' do
 
     it 'reports a database exists' do
         client.create_database(name: 'development')
-        expect(client.database_exists?(name:development)).to eq(true)
+        expect(client.database_exists?(name: 'development')).to eq(true)
     end
 
     it 'reports a database does not exist' do
