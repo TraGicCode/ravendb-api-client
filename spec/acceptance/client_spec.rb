@@ -30,6 +30,10 @@ describe 'client' do
     it 'returns a specific database' do
         database = client.get_database(name: 'development')
         expect(database['Id']).to eq('development')
+        expect(database['Settings']['Raven/ActiveBundles']).to eq('')
+        expect(database['Settings']['Raven/DataDir']).to eq('~/development')
+        expect(database['SecuredSettings']).to eq({})
+        expect(database['Disabled']).to eq(false)
     end
 
     it 'returns no databases' do
