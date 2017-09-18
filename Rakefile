@@ -1,6 +1,6 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
-require 'pry'
+require 'github_changelog_generator/task'
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = ['--color']
@@ -22,4 +22,10 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
     t.rspec_opts << "-r ./spec/spec_helper_acceptance"
   end
   t.pattern = 'spec/acceptance'
+end
+
+
+desc 'Generates a changelog'
+task :generate_changelog do
+  sh("github_changelog_generator --cache_log C:/github-changelog-logger.log --token #{ENV['CHANGELOG_GITHUB_TOKEN']}")
 end

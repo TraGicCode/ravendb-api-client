@@ -13,3 +13,4 @@ gem 'winrm'
 gem 'puppet'
 gem "beaker-testmode_switcher"
 gem 'rspec-collection_matchers'
+gem 'github_changelog_generator'
