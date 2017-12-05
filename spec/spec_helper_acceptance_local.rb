@@ -1,6 +1,5 @@
 require 'coverage_helper'
 require 'rspec/collection_matchers'
-require 'pry'
 
 puts 'INSIDE MY spec_helper_acceptance_local.rb file!!!!!'
 

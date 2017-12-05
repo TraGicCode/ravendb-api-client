@@ -1,7 +1,6 @@
 require "ravendb/api/client/version"
 require 'net/http'
 require 'json'
-require 'pry'
 
 # RavenDB HTTP Api
 # https://ravendb.net/docs/article-page/3.5/http/client-api/commands/how-to/get-database-configuration
