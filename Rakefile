@@ -27,5 +27,5 @@ end
 
 desc 'Generates a changelog'
 task :generate_changelog do
-  sh("github_changelog_generator --cache_log C:/github-changelog-logger.log --token #{ENV['CHANGELOG_GITHUB_TOKEN']}")
+  sh("github_changelog_generator --token #{ENV['CHANGELOG_GITHUB_TOKEN']}")
 end
